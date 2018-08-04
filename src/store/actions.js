@@ -58,11 +58,12 @@ export default {
      commit(RESET_USER)
    }
   },
-  async getGoods ({commit, state}) {
+  async getGoods ({commit, state}, cb) {
     let result = await reqGoods()
     if(result.code === 0){
       let goods = result.data
       commit(RECEIVE_GOODS, {goods})
+      typeof cb === 'function' && cb()
     }
   },
   async getRatings ({commit, state}) {
