@@ -5,11 +5,13 @@ import {Button} from 'mint-ui'
 import App from './App'
 import router from './router'
 import store from './store'
-
+import Split from './compnents/Split/Split'
 import './mock/mockServer'
+import './filters'
 
 Vue.config.productionTip = false
 Vue.component(Button.name, Button)
+Vue.component('Split', Split)
 
 /* eslint-disable no-new */
 new Vue({

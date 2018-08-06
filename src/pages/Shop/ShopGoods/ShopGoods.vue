@@ -17,7 +17,8 @@
           <li class="food-list-hook" v-for="(good, index) in goods" :key="index">
             <h1 class="title">{{good.name}}</h1>
             <ul>
-              <li class="food-item bottom-border-1px" v-for="(food, index) in good.foods" :key="index">
+              <li class="food-item bottom-border-1px" v-for="(food, index) in good.foods"
+                  :key="index" @click='showFood(food)'>
                 <div class="icon">
                   <img width="57" height="57"
                        :src="food.icon">
@@ -33,7 +34,7 @@
                     <span class="old" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
                   </div>
                   <div class="cartcontrol-wrapper">
-                    CartControl组件
+                    <CartControl :food = 'food'/>
                   </div>
                 </div>
               </li>
@@ -41,18 +42,25 @@
           </li>
         </ul>
       </div>
+      <ShopCart />
     </div>
+    <Food :food="food" ref="food"/>
   </div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
 import BScroll from 'better-scroll'
+import CartControl from '../../../compnents/CartControl/CartControl'
+import Food from '../../../compnents/Food/Food'
+import ShopCart from '../../../compnents/ShopCart/ShopCart'
 export default {
  data () {
    return {
      scrollY: 0,
-     tops: []
+     tops: [],
+     food: {},
+     isNeedScroll: true
    }
  },
  mounted () {
@@ -62,18 +70,22 @@ export default {
        this._initScrollY()
      })
    })
+   // 创建滚动对象的代码的时机为页面更新显示之后.
+   // 但是better-scroll做了优化,在mounted中也可以实现相应的效果
  },
  computed: {
    ...mapState(['goods']),
    currentIndex () { //通过右边列表滚动的距离计算当期的currentIndex
     let {scrollY, tops} = this
-    return tops.findIndex((top, index) => scrollY>= top && scrollY < tops[index+1])
+    let index = tops.findIndex((top, index) => scrollY >= top && scrollY < tops[index+1])
+    this._initMenuScroll(index)
+    return index
    }
  },
   methods: {
     _initTops () {
       let lis = this.$refs.scrollUl.getElementsByClassName('food-list-hook')
-      // let lis = this.$refs.scrollUl.children
+      // let lis = this.$refs.scrollUl.children // 可以获取所有的子元素节点
       let tops = []
       let top = 0
       tops.push(top)
@@ -84,37 +96,75 @@ export default {
       this.tops = tops
     },
     _initScrollY () {
+      // 创建左边菜单的滚动对象
       this.scrollMenu = new BScroll('.menu-wrapper', {
         click: true
       })
-      this.scrollFood = new BScroll('.foods-wrapper', {
-        probeType: 1,
-        click: true
-      })
-      this.scrollFood.on('scroll',({x, y}) => {
-        this.scrollY = Math.abs(y)
 
+      // 创建右边的滚动对象
+        this.scrollFood = new BScroll('.foods-wrapper', {
+          probeType: 2,
+          click: true
+        })
+
+      // 监听右边的滚动事件
+      this.scrollFood.on('scroll',({x, y}) => {
+        this.isNeedScroll = true
+        this.scrollY = Math.abs(y)
+      })
+
+    // 监听滑动停止,相应左边的currentIndex对应相应的index
+    //   this.scrollFood.on('scrollEnd',({x, y}) => {
+    //     this.scrollY = Math.abs(y)
+    //   })
+    },
+    _initMenuScroll (index) {
+      // if(this.scrollMenu){
+      //   // 自定义改善左边联动代码
+      //   // let lis = this.$refs.menuScroll.getElementsByClassName('menu-item')
+      //   let lis = this.$refs.menuScroll.children
+      //   this.scrollMenu.scrollToElement(lis[index], 500)
+      // }
+
+      if(this.scrollMenu && this.isNeedScroll) {
         // 自定义改善左边联动代码
         let lis = this.$refs.menuScroll.getElementsByClassName('menu-item')
         let height = lis[0].clientHeight
-        let index = this.tops.findIndex((top, index) => this.scrollY>= top && this.scrollY < this.tops[index+1])
-        if (index === 7) {
-          this.scrollMenu.scrollTo(0, -height, 500)
-        } else if (index === 8){
-          this.scrollMenu.scrollTo(0, -height * 2, 500)
-        } else {
-          this.scrollMenu.scrollTo(0, 0, 500)
+        switch (index) {
+          case 7:
+            this.scrollMenu.scrollTo(0, -height, 500)
+            return
+          case 8:
+            this.scrollMenu.scrollTo(0, -height * 2, 500)
+            return
+          default :
+            this.scrollMenu.scrollTo(0, 0, 500)
         }
-      })
-      this.scrollFood.on('scrollEnd',({x, y}) => {
-        this.scrollY = Math.abs(y)
-      })
+        // if (index === 7) {
+        //   this.scrollMenu.scrollTo(0, -height, 500)
+        // } else if (index === 8) {
+        //   this.scrollMenu.scrollTo(0, -height * 2, 500)
+        // } else {
+        //   this.scrollMenu.scrollTo(0, 0, 500)
+        // }
+      }
     },
+    // 点击左边分类时,右边相应的进行联动
     clickItem (index) {
       let top = this.tops[index]
       this.scrollFood.scrollTo(0, -top, 200)
       this.scrollY = top
+      this.isNeedScroll = false
+    },
+    showFood (food) {
+      this.food = food
+      this.$refs.food.toggleShow()
     }
+    },
+  components: {
+    CartControl,
+    Food,
+    ShopCart
   }
 }
 

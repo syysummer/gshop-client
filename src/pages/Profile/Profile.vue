@@ -9,15 +9,15 @@
         <div class="user-info">
           <p class="user-info-top" v-show="!user.phone">{{user.name ? user.name : '登录/注册'}}</p>
           <p>
-                <span class="user-icon">
-                  <i class="iconfont icon-shouji icon-mobile"></i>
-                </span>
+            <span class="user-icon">
+              <i class="iconfont icon-shouji icon-mobile"></i>
+            </span>
             <span class="icon-mobile-number">{{user.phone ? user.phone : '暂无绑定手机号'}}</span>
           </p>
         </div>
         <span class="arrow">
-              <i class="iconfont icon-jiantou1"></i>
-            </span>
+          <i class="iconfont icon-jiantou1"></i>
+        </span>
       </router-link>
     </section>
     <section class="profile_info_data border-1px">
@@ -39,14 +39,14 @@
     <section class="profile_my_order border-1px">
       <!-- 我的订单 -->
       <a href='javascript:' class="my_order">
-            <span>
-              <i class="iconfont icon-order-s"></i>
-            </span>
+        <span>
+          <i class="iconfont icon-order-s"></i>
+        </span>
         <div class="my_order_div">
           <span>我的订单</span>
           <span class="my_order_icon">
-                <i class="iconfont icon-jiantou1"></i>
-              </span>
+            <i class="iconfont icon-jiantou1"></i>
+          </span>
         </div>
       </a>
       <!-- 积分商城 -->
@@ -57,20 +57,20 @@
         <div class="my_order_div">
           <span>积分商城</span>
           <span class="my_order_icon">
-                <i class="iconfont icon-jiantou1"></i>
-              </span>
+             <i class="iconfont icon-jiantou1"></i>
+          </span>
         </div>
       </a>
       <!-- 硅谷外卖会员卡 -->
       <a href="javascript:" class="my_order">
-            <span>
-              <i class="iconfont icon-vip"></i>
-            </span>
+         <span>
+          <i class="iconfont icon-vip"></i>
+         </span>
         <div class="my_order_div">
           <span>硅谷外卖会员卡</span>
           <span class="my_order_icon">
-                <i class="iconfont icon-jiantou1"></i>
-              </span>
+            <i class="iconfont icon-jiantou1"></i>
+          </span>
         </div>
       </a>
     </section>

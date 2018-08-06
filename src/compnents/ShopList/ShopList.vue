@@ -45,6 +45,7 @@
       </ul>
       <ul v-else>
         <li><img src="./images/shop_back.svg" alt="back" v-for="i in 8" :key="i"></li>
+        <!--当后台信息没用请求回来时使用svg图,提高用户体验-->
       </ul>
     </div>
   </div>

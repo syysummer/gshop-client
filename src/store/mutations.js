@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import {RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
   RECEIVE_SHOPS,
@@ -5,7 +6,9 @@ import {RECEIVE_ADDRESS,
   RESET_USER,
   RECEIVE_GOODS,
   RECEIVE_RATINGS,
-  RECEIVE_INFO
+  RECEIVE_INFO,
+  INCREMENT_FOOD_COUNT,
+  DECREMENT_FOOD_COUNT
 } from './mutation-types'
 export default {
   [RECEIVE_ADDRESS] (state, {address}) {
@@ -32,4 +35,21 @@ export default {
   [RECEIVE_INFO] (state, {info}) {
     state.info = info
   },
+  [INCREMENT_FOOD_COUNT] (state, {food}) {
+    if(food.count){
+      food.count++
+    } else {
+      // 让后面添加的属性也能实现数据绑定
+      Vue.set(food, 'count', 1 )
+      state.cartFoods.push(food)
+    }
+  },
+  [DECREMENT_FOOD_COUNT] (state, {food}) {
+   if (food.count) {
+     food.count--
+     if (food.count === 0) {
+       state.cartFoods.splice(state.cartFoods.indexOf(food), 1)
+     }
+   }
+  }
 }

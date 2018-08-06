@@ -6,6 +6,7 @@ export default {
   goods: [],
   ratings: [],
   info: {},
-  shops: [], //商家数组
-  user:{}
+  shops: [], // 商家数组
+  user:{},
+  cartFoods: [] // 存储购物车列表的数组
 }
