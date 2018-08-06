@@ -100,19 +100,16 @@ export default {
       this.scrollMenu = new BScroll('.menu-wrapper', {
         click: true
       })
-
       // 创建右边的滚动对象
         this.scrollFood = new BScroll('.foods-wrapper', {
           probeType: 2,
           click: true
         })
-
       // 监听右边的滚动事件
       this.scrollFood.on('scroll',({x, y}) => {
         this.isNeedScroll = true
         this.scrollY = Math.abs(y)
       })
-
     // 监听滑动停止,相应左边的currentIndex对应相应的index
     //   this.scrollFood.on('scrollEnd',({x, y}) => {
     //     this.scrollY = Math.abs(y)

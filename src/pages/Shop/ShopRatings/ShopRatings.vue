@@ -33,7 +33,6 @@
                       @switchOnlyContent = 'switchOnlyContent'
              />
       </div>
-
       <div class="rating-wrapper">
         <ul>
           <li class="rating-item" v-for="(rating, index) in filterRatings" :key="index">

@@ -18,25 +18,29 @@
           </div>
         </div>
       </div>
+      <transition name="move">
       <div class="shopcart-list" v-show="isShowList">
         <div class="list-header">
           <h1 class="title">购物车</h1>
           <span class="empty">清空</span>
         </div>
-        <div class="list-content">
-          <ul>
-            <li class="food" v-for="(food, index) in cartFoods" :key="index">
-              <span class="name">{{food.name}}</span>
-              <div class="price"><span>￥{{food.price}}</span></div>
-              <div class="cartcontrol-wrapper">
-               <CartControl :food="food"/>
-              </div>
-            </li>
-          </ul>
-        </div>
+          <div class="list-content">
+            <ul>
+              <li class="food" v-for="(food, index) in cartFoods" :key="index">
+                <span class="name">{{food.name}}</span>
+                <div class="price"><span>￥{{food.price}}</span></div>
+                <div class="cartcontrol-wrapper">
+                  <CartControl :food="food"/>
+                </div>
+              </li>
+            </ul>
+          </div>
       </div>
+      </transition>
     </div>
+    <transition name="fade">
     <div class="list-mask" v-show="isShowList" @click="toggleCartShow"></div>
+    </transition>
   </div>
 </template>
 <script>
@@ -196,6 +200,10 @@ export default {
       z-index: -1
       width: 100%
       transform translateY(-100%)
+      &.move-enter-active, &.move-leave-active
+        transition transform .5s
+      &.move-enter, &.move-leave-to
+        transform translateY(0)
       .list-header
         height: 40px
         line-height: 40px
@@ -210,7 +218,6 @@ export default {
           float: right
           font-size: 12px
           color: rgb(0, 160, 220)
-
       .list-content
         padding: 0 18px
         max-height: 217px
@@ -239,6 +246,10 @@ export default {
             bottom: 6px
 
   .list-mask
+    &.fade-enter-active, &.fade-leave-active
+      transition opacity .5s
+    &.fade-enter, &.fade-leave-to
+      opacity 0
     position: fixed
     top: 0
     left: 0

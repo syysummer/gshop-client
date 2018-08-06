@@ -1,10 +1,11 @@
 <template>
-  <div class="food" v-show="isShow">
+  <div class="food" v-if="isShow">
     <div class="food-content">
       <div class="image-header">
-        <img :src="food.image">
+        <img v-lazy="food.image" />
+        <!--<img :src="food.image" />-->
         <p class="foodpanel-desc">{{food.info}}</p>
-        <div class="back" @click="toggleShow">
+        <div class="back" @click.stop="toggleShow">
           <i class="iconfont icon-arrow_left"></i>
         </div>
       </div>
@@ -23,19 +24,19 @@
         </div>
       </div>
     </div>
-    <div class="food-cover" @click="toggleShow"></div>
+    <div class="food-cover" @click.stop="toggleShow"></div>
   </div>
 </template>
 <script>
 import CartControl from '../CartControl/CartControl'
 export default {
+  props: {
+    food: Object
+  },
   data () {
     return {
       isShow: false
     }
-  },
-  props: {
-    food: Object
   },
   methods: {
     toggleShow () {
