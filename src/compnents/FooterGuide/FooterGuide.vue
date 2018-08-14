@@ -18,7 +18,7 @@
       </span>
       <span>订单</span>
     </span>
-    <span class="guide_item" @click="goTo('/profile')" :class="{on: $route.path === '/profile'}">
+    <span class="guide_item" @click="goTo('loginPath')" :class="{on: $route.path === '/profile'}">
       <span class="item_icon">
         <i class="iconfont icon-geren"></i>
       </span>
@@ -28,7 +28,11 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
+  computed: {
+    ...mapState(['loginPath'])
+  },
   methods: {
     goTo (path) {
       this.$router.replace(path)
