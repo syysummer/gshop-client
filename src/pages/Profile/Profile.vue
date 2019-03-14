@@ -104,6 +104,7 @@ export default {
   },
   methods: {
     logout () {
+      // 确定退出二次提示
       MessageBox.confirm('确定要退出吗?').then(
         action => {
         this.$store.dispatch('logout')
